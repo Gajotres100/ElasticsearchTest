@@ -34,6 +34,7 @@ namespace ElasticsearchTest
             services.AddControllers();
             services.AddVersioning();
             services.AddOpenApi();
+            services.AddElasticsearch(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
