@@ -14,23 +14,20 @@ namespace ElasticsearchTest.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class IndexController : ControllerBase
     {
+        internal IContext _context;
+
+        public IndexController(IContext context)
+        {
+            _context = context;
+        }
+
         [HttpPost()]
         [Route("")]
         public async Task<IActionResult> PostAsync()
         {
-
-            //var url = configuration["elasticsearch:url"];
-            //var defaultIndex = configuration["elasticsearch:index"];
-
-            //using (var db = new Context())
-            //{                
-            //    var repDataDrivers = db.RepDataDrivers.Take(50);
-            //    var kloc = await repDataDrivers.ToArrayAsync();
-
-            //    repDataDrivers = db.RepDataDrivers.Skip(10).Take(50);
-            //    kloc = await repDataDrivers.ToArrayAsync();
-            //}
+            var addreses = await _context.Addresses.Take(50).ToListAsync();
+            addreses = await _context.Addresses.Skip(10).Take(50).ToListAsync();
             return Ok();
-        }        
+        }
     }
 }

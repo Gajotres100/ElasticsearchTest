@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 using NSwag.Generation.AspNetCore;
+using Persistance.EntityFramework;
 
 namespace ElasticsearchTest.Configuration
 {
@@ -47,7 +48,7 @@ namespace ElasticsearchTest.Configuration
 
         public static void AddDiContainer(this IServiceCollection services)
         {
-            
+            services.AddScoped<IContext, Context>();
         }
     }
 }

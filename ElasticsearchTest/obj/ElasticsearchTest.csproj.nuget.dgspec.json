@@ -72,6 +72,14 @@
             "Oracle.EntityFrameworkCore": {
               "target": "Package",
               "version": "[2.19.60, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Swashbuckle.AspNetCore.Swagger": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             }
           },
           "imports": [

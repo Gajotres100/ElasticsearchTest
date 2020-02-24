@@ -42,5 +42,9 @@ C:\Users\Tekut\Source\Repos\ElasticsearchTest\ElasticsearchTest\bin\Debug\netcor
 C:\Users\Tekut\Source\Repos\ElasticsearchTest\ElasticsearchTest\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\Tekut\Source\Repos\ElasticsearchTest\ElasticsearchTest\bin\Debug\netcoreapp3.1\Elasticsearch.Net.dll
 C:\Users\Tekut\Source\Repos\ElasticsearchTest\ElasticsearchTest\bin\Debug\netcoreapp3.1\Nest.dll
+C:\Users\Tekut\Source\Repos\ElasticsearchTest\ElasticsearchTest\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+C:\Users\Tekut\Source\Repos\ElasticsearchTest\ElasticsearchTest\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Tekut\Source\Repos\ElasticsearchTest\ElasticsearchTest\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Tekut\Source\Repos\ElasticsearchTest\ElasticsearchTest\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Tekut\Source\Repos\ElasticsearchTest\ElasticsearchTest\obj\Debug\netcoreapp3.1\ElasticsearchTest.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Tekut\Source\Repos\ElasticsearchTest\ElasticsearchTest\obj\Debug\netcoreapp3.1\ElasticsearchTest.MvcApplicationPartsAssemblyInfo.cache
