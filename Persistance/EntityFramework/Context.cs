@@ -13,7 +13,7 @@ namespace Persistance.EntityFramework
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
-                .UseOracle(@"DATA SOURCE=10.70.54.44:1521/ORCL;PASSWORD=manager;PERSIST SECURITY INFO=True;USER ID=FMS_PLUS;", 
+                .UseOracle(@"DATA SOURCE=10.0.0.81:1521/FMS02;PASSWORD=manager;PERSIST SECURITY INFO=True;USER ID=DEV_FMS_7X;", 
                 options => options.UseOracleSQLCompatibility("11"));
     }
 }
