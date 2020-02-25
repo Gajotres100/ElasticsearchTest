@@ -32,10 +32,19 @@ namespace ElasticsearchTest.Controllers
         [Route("")]
         public async Task<IActionResult> PostAsync()
         {
-            var addreses = await _context.Addresses.Take(20).ToListAsync();
+            
+
+            string indexName = _configuration["elasticsearch:index"];
+
+            var index = await _elasticClient.Indices.ExistsAsync(indexName);
+
+            if (index.Exists)
+            {
+                await _elasticClient.Indices.DeleteAsync(indexName);
+            }            
 
             var createResult =
-                await _elasticClient.Indices.CreateAsync(_configuration["elasticsearch:index"], c => c
+                await _elasticClient.Indices.CreateAsync(indexName, c => c
                     .Settings(s => s
                         .Analysis(a => a
                             .AddSearchAnalyzer()
@@ -44,22 +53,35 @@ namespace ElasticsearchTest.Controllers
                 .Map<AddressesDocument>(m => m.AutoMap())
             );
 
-            var addresesDocument = addreses.Select(x => new AddressesDocument
+            int skip = 0;
+
+            int count = await _context.Addresses.CountAsync();
+
+            do
             {
-                AddressId = x.AddressId,
-                AddressString = x.AddressString,
-                Lat = x.Lat,
-                Lon = x.Lon
-            }).ToList();
 
-            var bullkResult =
-                await _elasticClient
-                .BulkAsync(b => b
-                    .Index(_configuration["elasticsearch:index"])
-                    .CreateMany(addresesDocument)
-                );
+                var addreses = await _context.Addresses.Skip(skip).Take(100000).ToListAsync();
 
-            addreses = await _context.Addresses.Skip(20000).Take(20000).ToListAsync();
+                var addresesDocument = addreses.Select(x => new AddressesDocument
+                {
+                    AddressId = x.AddressId,
+                    AddressString = x.AddressString,
+                    Lat = x.Lat,
+                    Lon = x.Lon
+                }).ToList();
+
+                var bullkResult =
+                    await _elasticClient
+                    .BulkAsync(b => b
+                        .Index(indexName)
+                        .CreateMany(addresesDocument)
+                    );
+
+                skip += 100000;
+            }
+            while (count > skip);
+
+            //addreses = await _context.Addresses.Skip(20000).Take(20000).ToListAsync();
             return Ok();
         }
     }
