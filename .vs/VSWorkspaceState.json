@@ -1,0 +1,10 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\ElasticsearchTest",
+    "\\ElasticsearchTest\\Controllers",
+    "\\ElasticsearchTest\\Middleware"
+  ],
+  "SelectedNode": "\\ElasticsearchTest\\Middleware\\ExceptionHandlingMiddleware.cs",
+  "PreviewInSolutionExplorer": false
+}
