@@ -11,7 +11,7 @@ namespace Persistance.EntityFramework.Entitys
     {
         [Key]
         [Column("ADDRESS_ID")]
-        public long? AddressId { get; set; }
+        public long AddressId { get; set; }
 
         [MaxLength(100)]
         [Column("ADDRESS_STRING")]

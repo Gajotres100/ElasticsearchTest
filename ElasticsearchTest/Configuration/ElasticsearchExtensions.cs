@@ -16,17 +16,19 @@ namespace ElasticsearchTest.Configuration
             var defaultIndex = configuration["elasticsearch:index"];
 
             var settings = new ConnectionSettings(new Uri(url))
-                .DefaultIndex(defaultIndex)
-                .DefaultMappingFor<Addresses>(m => m                
-                .PropertyName(p => p.AddressId, "AddressId")
-                .PropertyName(p => p.AddressString, "AddressString")
-                .PropertyName(p => p.Lat, "Lat")
-                .PropertyName(p => p.Lon, "Lon")
-            );
+                .DefaultIndex(defaultIndex);
+
+            services.AddSingleton(settings);
 
             var client = new ElasticClient();
 
-            services.AddSingleton<IElasticClient>(client);
+            services.AddScoped(s =>
+            {
+                var connectionSettings = s.GetRequiredService<ConnectionSettings>();
+                var client = new ElasticClient(connectionSettings);
+
+                return client;
+            });
         }
     }
 }
