@@ -18,9 +18,9 @@ namespace Persistance.EntityFramework.Entitys
         public string AddressString { get; set; }
 
         [Column("LON")]
-        public decimal? Lon { get; set; }
+        public double? Lon { get; set; }
 
         [Column("LAT")]
-        public decimal? Lat { get; set; }
+        public double? Lat { get; set; }
     }
 }

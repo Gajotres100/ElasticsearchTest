@@ -13,11 +13,7 @@ namespace Persistance.Elasticsearch.Maping
 
         [Keyword(Name = nameof(AddressString), Index = true)]
         public string AddressString { get; set; }
-
-        [Number(NumberType.Float, Name = nameof(Lon), Index = true)]
-        public decimal? Lon { get; set; }
-
-        [Number(NumberType.Float, Name = nameof(Lat), Index = true)]
-        public decimal? Lat { get; set; }
+    
+        public GeoLocation Location { get; set; }
     }
 }

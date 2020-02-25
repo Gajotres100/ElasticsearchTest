@@ -1,31 +1,29 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\apisit\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj": {}
+    "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj": {}
   },
   "projects": {
-    "C:\\Users\\apisit\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj": {
+    "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\apisit\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj",
+        "projectUniqueName": "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj",
         "projectName": "Persistance",
-        "projectPath": "C:\\Users\\apisit\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj",
-        "packagesPath": "C:\\Users\\apisit\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\apisit\\Source\\Repos\\ElasticsearchTest\\Persistance\\obj\\",
+        "projectPath": "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj",
+        "packagesPath": "C:\\Users\\Tekut\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\Persistance\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\apisit\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 19.1.config",
+          "C:\\Users\\Tekut\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\DevExpress 19.1\\Components\\System\\Components\\Packages": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
@@ -81,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

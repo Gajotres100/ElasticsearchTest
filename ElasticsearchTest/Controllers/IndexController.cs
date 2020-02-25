@@ -55,19 +55,18 @@ namespace ElasticsearchTest.Controllers
 
             int skip = 0;
 
-            int count = await _context.Addresses.CountAsync();
+            int count = await _context.Addresses.Where(x => x.Lat != null && x.Lon != null).CountAsync();
 
             do
             {
 
-                var addreses = await _context.Addresses.Skip(skip).Take(100000).ToListAsync();
+                var addreses = await _context.Addresses.Where(x => x.Lat != null && x.Lon != null).Skip(skip).Take(100000).ToListAsync();
 
                 var addresesDocument = addreses.Select(x => new AddressesDocument
                 {
                     AddressId = x.AddressId,
                     AddressString = x.AddressString,
-                    Lat = x.Lat,
-                    Lon = x.Lon
+                    Location = new GeoLocation(x.Lat.GetValueOrDefault(), x.Lon.GetValueOrDefault())
                 }).ToList();
 
                 var bullkResult =
