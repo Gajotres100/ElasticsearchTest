@@ -5,3 +5,5 @@
 /.vs/ElasticsearchTest/v16/Server/sqlite3
 /.vs/
 /ElasticsearchTest\obj
+/.vs/ElasticsearchTest/v16
+/ElasticsearchTest/bin
