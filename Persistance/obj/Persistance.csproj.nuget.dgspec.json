@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj": {}
+    "C:\\Users\\Tekut\\source\\repos\\ElasticsearchTest\\Persistance\\Persistance.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj": {
+    "C:\\Users\\Tekut\\source\\repos\\ElasticsearchTest\\Persistance\\Persistance.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj",
+        "projectUniqueName": "C:\\Users\\Tekut\\source\\repos\\ElasticsearchTest\\Persistance\\Persistance.csproj",
         "projectName": "Persistance",
-        "projectPath": "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj",
+        "projectPath": "C:\\Users\\Tekut\\source\\repos\\ElasticsearchTest\\Persistance\\Persistance.csproj",
         "packagesPath": "C:\\Users\\Tekut\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\Persistance\\obj\\",
+        "outputPath": "C:\\Users\\Tekut\\source\\repos\\ElasticsearchTest\\Persistance\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

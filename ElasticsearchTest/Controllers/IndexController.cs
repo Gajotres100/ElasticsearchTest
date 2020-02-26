@@ -32,55 +32,68 @@ namespace ElasticsearchTest.Controllers
         [Route("")]
         public async Task<IActionResult> PostAsync()
         {
-            
 
-            string indexName = _configuration["elasticsearch:index"];
 
-            var index = await _elasticClient.Indices.ExistsAsync(indexName);
+            //string indexName = _configuration["elasticsearch:index"];
 
-            if (index.Exists)
-            {
-                await _elasticClient.Indices.DeleteAsync(indexName);
-            }            
+            //var index = await _elasticClient.Indices.ExistsAsync(indexName);
 
-            var createResult =
-                await _elasticClient.Indices.CreateAsync(indexName, c => c
-                    .Settings(s => s
-                        .Analysis(a => a
-                            .AddSearchAnalyzer()
-                        )
-                    )
-                .Map<AddressesDocument>(m => m.AutoMap())
-            );
+            //if (index.Exists)
+            //{
+            //    await _elasticClient.Indices.DeleteAsync(indexName);
+            //}            
 
-            int skip = 0;
+            //var createResult =
+            //    await _elasticClient.Indices.CreateAsync(indexName, c => c
+            //        .Settings(s => s
+            //            .Analysis(a => a
+            //                .AddSearchAnalyzer()
+            //            )
+            //        )
+            //    .Map<AddressesDocument>(m => m.AutoMap())
+            //);
 
-            int count = await _context.Addresses.Where(x => x.Lat != null && x.Lon != null).CountAsync();
+            //int skip = 0;
 
-            do
-            {
+            //int count = await _context.Addresses.Where(x => x.Lat != null && x.Lon != null).CountAsync();
 
-                var addreses = await _context.Addresses.Where(x => x.Lat != null && x.Lon != null).Skip(skip).Take(100000).ToListAsync();
+            //do
+            //{
 
-                var addresesDocument = addreses.Select(x => new AddressesDocument
-                {
-                    AddressId = x.AddressId,
-                    AddressString = x.AddressString,
-                    Location = new GeoLocation(x.Lat.GetValueOrDefault(), x.Lon.GetValueOrDefault())
-                }).ToList();
+            //    var addreses = await _context.Addresses.Where(x => x.Lat != null && x.Lon != null).Skip(skip).Take(100000).ToListAsync();
 
-                var bullkResult =
-                    await _elasticClient
-                    .BulkAsync(b => b
-                        .Index(indexName)
-                        .CreateMany(addresesDocument)
-                    );
+            //    var addresesDocument = addreses.Select(x => new AddressesDocument
+            //    {
+            //        AddressId = x.AddressId,
+            //        AddressString = x.AddressString,
+            //        Location = new GeoLocation(x.Lat.GetValueOrDefault(), x.Lon.GetValueOrDefault())
+            //    }).ToList();
 
-                skip += 100000;
-            }
-            while (count > skip);
+            //    var bullkResult =
+            //        await _elasticClient
+            //        .BulkAsync(b => b
+            //            .Index(indexName)
+            //            .CreateMany(addresesDocument)
+            //        );
+
+            //    skip += 100000;
+            //}
+            //while (count > skip);
 
             //addreses = await _context.Addresses.Skip(20000).Take(20000).ToListAsync();
+
+
+
+            var geoResult = _elasticClient.Search<AddressesDocument>(s => s.From(0).Size(10000)
+                .Query(query => query
+                    .Bool(b => b.Filter(filter => filter
+                        .GeoDistance(geo => geo
+                            .Field(f => f.Location) //<- this 
+                            .Distance(1400, Nest.DistanceUnit.Kilometers).Location(40, 40)))
+                    )
+                )
+            );
+
             return Ok();
         }
     }

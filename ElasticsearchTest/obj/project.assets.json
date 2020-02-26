@@ -6745,11 +6745,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\ElasticsearchTest\\ElasticsearchTest.csproj",
+      "projectUniqueName": "C:\\Users\\Tekut\\source\\repos\\ElasticsearchTest\\ElasticsearchTest\\ElasticsearchTest.csproj",
       "projectName": "ElasticsearchTest",
-      "projectPath": "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\ElasticsearchTest\\ElasticsearchTest.csproj",
+      "projectPath": "C:\\Users\\Tekut\\source\\repos\\ElasticsearchTest\\ElasticsearchTest\\ElasticsearchTest.csproj",
       "packagesPath": "C:\\Users\\Tekut\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\ElasticsearchTest\\obj\\",
+      "outputPath": "C:\\Users\\Tekut\\source\\repos\\ElasticsearchTest\\ElasticsearchTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -6768,8 +6768,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj": {
-              "projectPath": "C:\\Users\\Tekut\\Source\\Repos\\ElasticsearchTest\\Persistance\\Persistance.csproj"
+            "C:\\Users\\Tekut\\source\\repos\\ElasticsearchTest\\Persistance\\Persistance.csproj": {
+              "projectPath": "C:\\Users\\Tekut\\source\\repos\\ElasticsearchTest\\Persistance\\Persistance.csproj"
             }
           }
         }
