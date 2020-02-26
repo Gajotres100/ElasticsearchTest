@@ -3,3 +3,5 @@
 ################################################################################
 
 /.vs/ElasticsearchTest/v16/Server/sqlite3
+/.vs/
+/ElasticsearchTest\obj
