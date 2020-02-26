@@ -7,3 +7,5 @@
 /ElasticsearchTest\obj
 /.vs/ElasticsearchTest/v16
 /ElasticsearchTest/bin
+bin/
+obj/
