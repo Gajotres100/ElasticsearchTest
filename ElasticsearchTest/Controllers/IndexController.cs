@@ -33,6 +33,7 @@ namespace ElasticsearchTest.Controllers
         public async Task<IActionResult> PostAsync()
         {
 
+            await Test();
 
             //string indexName = _configuration["elasticsearch:index"];
 
@@ -84,17 +85,75 @@ namespace ElasticsearchTest.Controllers
 
 
 
-            var geoResult = _elasticClient.Search<AddressesDocument>(s => s.From(0).Size(10000)
-                .Query(query => query
-                    .Bool(b => b.Filter(filter => filter
-                        .GeoDistance(geo => geo
-                            .Field(f => f.Location) //<- this 
-                            .Distance(1400, Nest.DistanceUnit.Kilometers).Location(40, 40)))
+            //var geoResult = _elasticClient.Search<AddressesDocument>(s => s.From(0).Size(10000)
+            //    .Query(query => query
+            //        .Bool(b => b.Filter(filter => filter
+            //            .GeoDistance(geo => geo
+            //                .Field(f => f.Location) //<- this 
+            //                .Distance(1400, Nest.DistanceUnit.Kilometers).Location(40, 40)))
+            //        )
+            //    )
+            //);
+
+            return Ok();
+        }
+
+        public async Task Test()
+        {
+            string indexName = "test";
+
+            //var index = await _elasticClient.Indices.ExistsAsync(indexName);
+
+            //if (index.Exists)
+            //{
+            //    await _elasticClient.Indices.DeleteAsync(indexName);
+            //}
+
+            //var createResult =
+            //    await _elasticClient.Indices.CreateAsync(indexName, c => c
+            //        .Settings(s => s
+            //            .Analysis(a => a
+            //                .AddSearchAnalyzer()
+            //            )
+            //        )
+            //    .Map<TestDocument>(m => m.AutoMap())
+            //);
+
+            var test = new TestDocument
+            {
+                Id = 1,
+                Name = "Klocna je klocna"
+            };
+
+            //var res = await  _elasticClient.IndexAsync(test, i => i.Index(indexName));
+
+
+            //res = await _elasticClient.IndexAsync(new IndexRequest<TestDocument>(test, indexName));
+
+            //var searchResponse = _elasticClient.Search<TestDocument>(s => s
+            //    .Index(indexName) 
+            //    .From(0)
+            //     .Size(10)
+            //     .Query(q => q
+            //          .Match(m => m
+            //             .Field(f => f.Name)
+            //             .Query("Klocna je klocna")
+            //          )
+            //     )
+            //);
+
+
+             var searchResponse = _elasticClient.Search<TestDocument>(s => s
+                 .Index(indexName)
+                 .Query(q => q
+                    .Match(m => m
+                        .Field(f => f.Name)
+                        .Query("Klocna")
                     )
                 )
             );
 
-            return Ok();
+            var kloc = searchResponse;
         }
     }
 }

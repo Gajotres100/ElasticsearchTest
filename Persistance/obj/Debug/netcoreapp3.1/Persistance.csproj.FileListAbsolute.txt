@@ -17,3 +17,4 @@ C:\Users\Tekut\source\repos\ElasticsearchTest\Persistance\obj\Debug\netcoreapp3.
 C:\Users\Tekut\source\repos\ElasticsearchTest\Persistance\obj\Debug\netcoreapp3.1\Persistance.AssemblyInfo.cs
 C:\Users\Tekut\source\repos\ElasticsearchTest\Persistance\obj\Debug\netcoreapp3.1\Persistance.dll
 C:\Users\Tekut\source\repos\ElasticsearchTest\Persistance\obj\Debug\netcoreapp3.1\Persistance.pdb
+C:\Users\Tekut\source\repos\ElasticsearchTest\Persistance\obj\Debug\netcoreapp3.1\Persistance.csprojAssemblyReference.cache
