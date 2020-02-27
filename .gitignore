@@ -4,9 +4,12 @@
 
 /.vs/ElasticsearchTest/v16/Server/sqlite3
 /.vs/
-/ElasticsearchTest\obj
+/ElasticsearchTest/obj
+/Persistance/obj
 /.vs/ElasticsearchTest/v16
 /ElasticsearchTest/bin
 bin/
 obj/
 /obj/
+**/bin/
+**/obj/

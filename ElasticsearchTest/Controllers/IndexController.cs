@@ -100,9 +100,33 @@ namespace ElasticsearchTest.Controllers
 
         public async Task Test()
         {
-            string indexName = "test";
+            string indexName = "s1";
 
-            //var index = await _elasticClient.Indices.ExistsAsync(indexName);
+            var searchResults2 = _elasticClient.Search<TracklogDocument>(s => s
+                .Query(q => q.Term(p => p.DeviceId, 24631) && q.Range(r => r.Field(p => p.Speed).GreaterThanOrEquals(80))
+                && q.DateRange(r => r.Field(p => p.Timestamp).GreaterThanOrEquals(DateTime.Now.AddYears(-3)))
+                && q.DateRange(r => r.Field(p => p.Timestamp).LessThanOrEquals(DateTime.Now)))
+            );
+
+
+            var geoResult = _elasticClient.Search<SuburbDocument>(s => s.From(0).Size(10000)
+                .Index(indexName)
+                .Query(query => query
+                    .Bool(b => b.Filter(filter => filter
+                        .GeoShape(geo => geo
+                            .Field(f => f.Location) //<- this 
+                            .Shape(s => s
+                                .Envelope(new GeoCoordinate(45.494859, 18.244968), new GeoCoordinate(45.494859, 18.244968)))
+                            .Relation(GeoShapeRelation.Intersects))
+                        )
+                    )
+                )
+            );
+
+
+
+
+            var index = await _elasticClient.Indices.ExistsAsync(indexName);
 
             //if (index.Exists)
             //{
@@ -143,15 +167,15 @@ namespace ElasticsearchTest.Controllers
             //);
 
 
-             var searchResponse = _elasticClient.Search<TestDocument>(s => s
-                 .Index(indexName)
-                 .Query(q => q
-                    .Match(m => m
-                        .Field(f => f.Name)
-                        .Query("Klocna")
-                    )
-                )
-            );
+            var searchResponse = _elasticClient.Search<TestDocument>(s => s
+                .Index(indexName)
+                .Query(q => q
+                   .Match(m => m
+                       .Field(f => f.Name)
+                       .Query("Klocna")
+                   )
+               )
+           );
 
             var kloc = searchResponse;
         }
