@@ -115,22 +115,31 @@ namespace ElasticsearchTest.Controllers
                     .Index(indexName)
                     .Query(query => query
                         .Bool(b => b.Filter(filter => filter
-                            .GeoShape(geo => geo
-                                .Field(f => f.Location) //<- this 
-                                .Shape(s => s
-                                .Envelope(new GeoCoordinate(val.Location.Latitude, val.Location.Longitude), new GeoCoordinate(val.Location.Latitude, val.Location.Longitude)))
-                                .Relation(GeoShapeRelation.Intersects))
+                            .GeoDistance(geo => geo
+                                .Field(f => f.Location)
+                                .Distance(1, Nest.DistanceUnit.Kilometers).Location(new GeoCoordinate(val.Location.Latitude, val.Location.Longitude)))
                             )
+                        )                        
+                    )
+                    .Sort(s => s
+                        .GeoDistance(g => g
+                            .Field(p => p.Location)
+                            .DistanceType(GeoDistanceType.Arc)
+                            .Order(SortOrder.Ascending)
+                            .Unit(DistanceUnit.Kilometers)
+                            .Points(new GeoCoordinate(val.Location.Latitude, val.Location.Longitude), new GeoCoordinate(val.Location.Latitude, val.Location.Longitude))
                         )
                     )
-                    //.Sort(s => s
-                    //.GeoDistance(g => g                        
-                    //    .DistanceType(GeoDistanceType.Arc)
-                    //    .Order(SortOrder.Descending)
-                    //    .Unit(DistanceUnit.Kilometers)
-                    //    .Points(new GeoCoordinate(val.Location.Latitude, val.Location.Longitude), new GeoCoordinate(val.Location.Latitude, val.Location.Longitude)))                   
-                    //)
                 );
+
+                if (val.Address == geoResult.Documents.FirstOrDefault()?.Name)
+                {
+                    string ba = "";
+                }
+                else
+                {
+                    var ab = "";
+                }                    
 
                 var b = geoResult;
             }
