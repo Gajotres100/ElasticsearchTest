@@ -100,7 +100,7 @@ namespace ElasticsearchTest.Controllers
 
         public async Task Test()
         {
-            string indexName = "s1";
+            string indexName = "address4";
 
             var searchResults2 = _elasticClient.Search<TracklogDocument>(s => s
                 .Index("tracklog")
@@ -109,20 +109,31 @@ namespace ElasticsearchTest.Controllers
                 && q.DateRange(r => r.Field(p => p.Timestamp).LessThanOrEquals(DateTime.Now)))
             );
 
-
-            var geoResult = _elasticClient.Search<SuburbDocument>(s => s.From(0).Size(10000)
-                .Index(indexName)
-                .Query(query => query
-                    .Bool(b => b.Filter(filter => filter
-                        .GeoShape(geo => geo
-                            .Field(f => f.Location) //<- this 
-                            .Shape(s => s
-                            .Envelope(new GeoCoordinate(45.494859, 18.244968), new GeoCoordinate(45.494859, 18.244968)))
-                            .Relation(GeoShapeRelation.Intersects))
+            foreach (var val in searchResults2.Documents)
+            {
+                var geoResult = _elasticClient.Search<SuburbDocument>(s => s.From(0).Size(10000)
+                    .Index(indexName)
+                    .Query(query => query
+                        .Bool(b => b.Filter(filter => filter
+                            .GeoShape(geo => geo
+                                .Field(f => f.Location) //<- this 
+                                .Shape(s => s
+                                .Envelope(new GeoCoordinate(val.Location.Latitude, val.Location.Longitude), new GeoCoordinate(val.Location.Latitude, val.Location.Longitude)))
+                                .Relation(GeoShapeRelation.Intersects))
+                            )
                         )
                     )
-                )
-            );
+                    //.Sort(s => s
+                    //.GeoDistance(g => g                        
+                    //    .DistanceType(GeoDistanceType.Arc)
+                    //    .Order(SortOrder.Descending)
+                    //    .Unit(DistanceUnit.Kilometers)
+                    //    .Points(new GeoCoordinate(val.Location.Latitude, val.Location.Longitude), new GeoCoordinate(val.Location.Latitude, val.Location.Longitude)))                   
+                    //)
+                );
+
+                var b = geoResult;
+            }
 
 
 
