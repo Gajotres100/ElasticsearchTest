@@ -103,6 +103,7 @@ namespace ElasticsearchTest.Controllers
             string indexName = "s1";
 
             var searchResults2 = _elasticClient.Search<TracklogDocument>(s => s
+                .Index("tracklog")
                 .Query(q => q.Term(p => p.DeviceId, 24631) && q.Range(r => r.Field(p => p.Speed).GreaterThanOrEquals(80))
                 && q.DateRange(r => r.Field(p => p.Timestamp).GreaterThanOrEquals(DateTime.Now.AddYears(-3)))
                 && q.DateRange(r => r.Field(p => p.Timestamp).LessThanOrEquals(DateTime.Now)))
@@ -116,7 +117,7 @@ namespace ElasticsearchTest.Controllers
                         .GeoShape(geo => geo
                             .Field(f => f.Location) //<- this 
                             .Shape(s => s
-                                .Envelope(new GeoCoordinate(45.494859, 18.244968), new GeoCoordinate(45.494859, 18.244968)))
+                            .Envelope(new GeoCoordinate(45.494859, 18.244968), new GeoCoordinate(45.494859, 18.244968)))
                             .Relation(GeoShapeRelation.Intersects))
                         )
                     )
