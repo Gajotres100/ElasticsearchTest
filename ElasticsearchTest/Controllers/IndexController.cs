@@ -104,9 +104,10 @@ namespace ElasticsearchTest.Controllers
 
         public async Task Test()
         {
-            _logger.LogInformation("Home Index page");
-
             string indexName = "address4";
+
+            var cumulativ = new Stopwatch();
+            cumulativ.Start();
 
             var searchResults2 = _elasticClient.Search<TracklogDocument>(s => s.From(0).Size(10000)
                 .Index("tracklog")
@@ -115,7 +116,7 @@ namespace ElasticsearchTest.Controllers
                 )
             );
 
-            var logList = new List<LogDtocument>();
+            var logList = new List<LogDocument>();
 
             foreach (var val in searchResults2.Documents)
             {
@@ -147,18 +148,21 @@ namespace ElasticsearchTest.Controllers
 
                 if (geoResult.Documents.Count() > 0 &&  val.Address != geoResult.Documents.FirstOrDefault()?.Name)
                 {
-                    var log = new LogDtocument
+                    var log = new LogDocument
                     {
                         ElapsedMilliseconds = elapsedMs,
                         SuburbName = geoResult.Documents.FirstOrDefault()?.Name,
                         TracklogAddres = val.Address,
+                        Location = new GeoCoordinate(val.Location.Latitude, val.Location.Longitude),
+                        TracklogId = val.TracklogId
                     };
                     logList.Add(log);
                 }
             }
 
+            cumulativ.Stop();
 
-
+            _logger.LogInformation($"Vrijeame trajanje u milisekundama = {cumulativ.ElapsedMilliseconds}");
 
             var index = await _elasticClient.Indices.ExistsAsync("log");
 
@@ -174,7 +178,7 @@ namespace ElasticsearchTest.Controllers
                             .AddSearchAnalyzer()
                         )
                     )
-                .Map<LogDtocument>(m => m.AutoMap())
+                .Map<LogDocument>(m => m.AutoMap())
             );
 
 
@@ -220,7 +224,7 @@ namespace ElasticsearchTest.Controllers
             //    )
             //);
 
-           //var kloc = searchResponse;
+           var kloc = "";
         }
     }
 }
