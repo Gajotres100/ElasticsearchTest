@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nest;
 using Microsoft.Extensions.Configuration;
 using Persistance.Elasticsearch.Maping;
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace ElasticsearchTest.Controllers
 {
@@ -20,12 +22,14 @@ namespace ElasticsearchTest.Controllers
         IContext _context;
         ElasticClient _elasticClient;
         IConfiguration _configuration;
+        ILogger _logger;
 
-        public IndexController(IContext context, ElasticClient elasticClient, IConfiguration configuration)
+        public IndexController(IContext context, ElasticClient elasticClient, IConfiguration configuration, ILogger<Startup> logger)
         {
             _context = context;
             _elasticClient = elasticClient;
             _configuration = configuration;
+            _logger = logger;
         }
 
         [HttpPost()]
@@ -100,24 +104,30 @@ namespace ElasticsearchTest.Controllers
 
         public async Task Test()
         {
+            _logger.LogInformation("Home Index page");
+
             string indexName = "address4";
 
-            var searchResults2 = _elasticClient.Search<TracklogDocument>(s => s
+            var searchResults2 = _elasticClient.Search<TracklogDocument>(s => s.From(0).Size(10000)
                 .Index("tracklog")
-                .Query(q => q.Term(p => p.DeviceId, 24631) && q.Range(r => r.Field(p => p.Speed).GreaterThanOrEquals(80))
-                && q.DateRange(r => r.Field(p => p.Timestamp).GreaterThanOrEquals(DateTime.Now.AddYears(-3)))
-                && q.DateRange(r => r.Field(p => p.Timestamp).LessThanOrEquals(DateTime.Now)))
+                .Query(q => q
+                    .MatchAll()
+                )
             );
+
+            var logList = new List<LogDtocument>();
 
             foreach (var val in searchResults2.Documents)
             {
+                var watch = new Stopwatch();
+                watch.Start();
                 var geoResult = _elasticClient.Search<SuburbDocument>(s => s.From(0).Size(10000)
                     .Index(indexName)
                     .Query(query => query
                         .Bool(b => b.Filter(filter => filter
                             .GeoDistance(geo => geo
                                 .Field(f => f.Location)
-                                .Distance(1, Nest.DistanceUnit.Kilometers).Location(new GeoCoordinate(val.Location.Latitude, val.Location.Longitude)))
+                                .Distance(50, Nest.DistanceUnit.Meters).Location(new GeoCoordinate(val.Location.Latitude, val.Location.Longitude)))
                             )
                         )                        
                     )
@@ -131,44 +141,56 @@ namespace ElasticsearchTest.Controllers
                         )
                     )
                 );
+                watch.Stop();
 
-                if (val.Address == geoResult.Documents.FirstOrDefault()?.Name)
+                var elapsedMs = watch.ElapsedMilliseconds;
+
+                if (geoResult.Documents.Count() > 0 &&  val.Address != geoResult.Documents.FirstOrDefault()?.Name)
                 {
-                    string ba = "";
+                    var log = new LogDtocument
+                    {
+                        ElapsedMilliseconds = elapsedMs,
+                        SuburbName = geoResult.Documents.FirstOrDefault()?.Name,
+                        TracklogAddres = val.Address,
+                    };
+                    logList.Add(log);
                 }
-                else
-                {
-                    var ab = "";
-                }                    
-
-                var b = geoResult;
             }
 
 
 
 
-            var index = await _elasticClient.Indices.ExistsAsync(indexName);
+            var index = await _elasticClient.Indices.ExistsAsync("log");
 
-            //if (index.Exists)
-            //{
-            //    await _elasticClient.Indices.DeleteAsync(indexName);
-            //}
-
-            //var createResult =
-            //    await _elasticClient.Indices.CreateAsync(indexName, c => c
-            //        .Settings(s => s
-            //            .Analysis(a => a
-            //                .AddSearchAnalyzer()
-            //            )
-            //        )
-            //    .Map<TestDocument>(m => m.AutoMap())
-            //);
-
-            var test = new TestDocument
+            if (index.Exists)
             {
-                Id = 1,
-                Name = "Klocna je klocna"
-            };
+                await _elasticClient.Indices.DeleteAsync("log");
+            }
+
+            var createResult =
+                await _elasticClient.Indices.CreateAsync("log", c => c
+                    .Settings(s => s
+                        .Analysis(a => a
+                            .AddSearchAnalyzer()
+                        )
+                    )
+                .Map<LogDtocument>(m => m.AutoMap())
+            );
+
+
+            var bullkResult =
+                await _elasticClient                
+                .BulkAsync(b => b
+                    .Index("log")
+                    .CreateMany(logList)
+                );
+
+
+            //var test = new TestDocument
+            //{
+            //    Id = 1,
+            //    Name = "Klocna je klocna"
+            //};
 
             //var res = await  _elasticClient.IndexAsync(test, i => i.Index(indexName));
 
@@ -188,17 +210,17 @@ namespace ElasticsearchTest.Controllers
             //);
 
 
-            var searchResponse = _elasticClient.Search<TestDocument>(s => s
-                .Index(indexName)
-                .Query(q => q
-                   .Match(m => m
-                       .Field(f => f.Name)
-                       .Query("Klocna")
-                   )
-               )
-           );
+            // var searchResponse = _elasticClient.Search<TestDocument>(s => s
+            //     .Index(indexName)
+            //     .Query(q => q
+            //        .Match(m => m
+            //            .Field(f => f.Name)
+            //            .Query("Klocna")
+            //        )
+            //    )
+            //);
 
-            var kloc = searchResponse;
+           //var kloc = searchResponse;
         }
     }
 }
